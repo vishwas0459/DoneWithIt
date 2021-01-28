@@ -3,15 +3,16 @@ import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import { colors } from '../config/colors';
 import AppText from './AppText';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-function ListItem({ image, title, price, onPress, renderRightActions }) {
+function ListItem({ IconComponent, image, title, subtitle, onPress, renderRightActions }) {
 	return (
 		<Swipeable renderRightActions={renderRightActions}>
 			<TouchableHighlight underlayColor={colors.light} onPress={onPress}>
 				<View style={styles.container}>
-					<Image style={styles.image} source={image} />
-					<View style={styles.userDetails}>
+					{image && <Image style={styles.image} source={image} />}
+					{IconComponent}
+					<View style={styles.detailsContainer}>
 						<AppText style={styles.title}>{title}</AppText>
-						<AppText style={styles.subtitle}>{price}</AppText>
+						{subtitle && <AppText style={styles.subtitle}>{subtitle}</AppText>}
 					</View>
 				</View>
 			</TouchableHighlight>
@@ -24,8 +25,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		padding: 10
 	},
-	userDetails: {
-		marginVertical: 10
+	detailsContainer: {
+		marginVertical: 10,
+		marginLeft: 10
 	},
 	image: {
 		width: 80,
