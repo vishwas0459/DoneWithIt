@@ -8,7 +8,7 @@ function AppText({ children, style }) {
 
 const styles = StyleSheet.create({
 	text: {
-		color: colors.white,
+		color: colors.dark,
 		...Platform.select({
 			ios: {
 				fontFamily: 'Avenir',
