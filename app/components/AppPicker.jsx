@@ -13,10 +13,12 @@ function AppPicker({ iconName, items, placeholder, selectedItem, onSelectedItem 
 			<TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
 				<View style={styles.container}>
 					{iconName && <MaterialCommunityIcons name={iconName} size={25} color={colors.medium} style={styles.icon} />}
-					<AppText style={styles.text}>{selectedItem ? selectedItem : placeholder}</AppText>
-					{iconName && (
-						<MaterialCommunityIcons name='chevron-down' size={25} color={colors.medium} style={styles.icon} />
+					{selectedItem ? (
+						<AppText style={styles.text}>{selectedItem}</AppText>
+					) : (
+						<AppText style={styles.text}>{placeholder}</AppText>
 					)}
+					<MaterialCommunityIcons name='chevron-down' size={25} color={colors.medium} style={styles.icon} />
 				</View>
 			</TouchableWithoutFeedback>
 			<Modal visible={modalVisible} animationType='slide'>

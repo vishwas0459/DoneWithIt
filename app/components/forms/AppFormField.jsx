@@ -1,10 +1,10 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
-import AppInputText from './AppInputText';
+import AppInputText from '../AppInputText';
 import AppErrorMessage from './AppErrorMessage';
 
 function AppFormField({ name, ...otherProps }) {
-	const { errors, touched, setFieldTouched, handleChange } = useFormikContext();
+	const { errors, touched, setFieldTouched, handleChange, values } = useFormikContext();
 	return (
 		<>
 			<AppInputText onChangeText={handleChange(name)} {...otherProps} onBlur={() => setFieldTouched(name)} />
