@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { TouchableWithoutFeedback, StyleSheet, TextInput, View, Keyboard } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../config/colors';
 import { defaultStyles } from '../config/styles';
 
 function AppInputText({ iconName, ...restProps }) {
+	// FIX - enable autoHide of keyboard on blur
 	return (
+		// <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 		<View style={styles.container}>
 			{iconName && <MaterialCommunityIcons name={iconName} size={25} color={colors.medium} style={styles.icon} />}
 			<TextInput style={defaultStyles.text} {...restProps} />
 		</View>
+		// </TouchableWithoutFeedback>
 	);
 }
 
