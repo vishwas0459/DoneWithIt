@@ -10,7 +10,7 @@ function AppInputText({ iconName, ...restProps }) {
 		// <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 		<View style={styles.container}>
 			{iconName && <MaterialCommunityIcons name={iconName} size={25} color={colors.medium} style={styles.icon} />}
-			<TextInput style={defaultStyles.text} {...restProps} />
+			<TextInput style={defaultStyles.text} {...restProps} placeholderTextColor={colors.medium} />
 		</View>
 		// </TouchableWithoutFeedback>
 	);
