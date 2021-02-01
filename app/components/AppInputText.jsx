@@ -4,11 +4,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../config/colors';
 import { defaultStyles } from '../config/styles';
 
-function AppInputText({ iconName, ...restProps }) {
+function AppInputText({ iconName, width = '100%', ...restProps }) {
 	// FIX - enable autoHide of keyboard on blur
 	return (
 		// <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-		<View style={styles.container}>
+		<View style={[styles.container, { width: width }]}>
 			{iconName && <MaterialCommunityIcons name={iconName} size={25} color={colors.medium} style={styles.icon} />}
 			<TextInput style={defaultStyles.text} {...restProps} placeholderTextColor={colors.medium} />
 		</View>
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.light,
 		padding: 15,
-		width: '100%',
 		flexDirection: 'row',
 		margin: 10,
 		borderRadius: 20

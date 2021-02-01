@@ -6,9 +6,15 @@ import ListItemDeleteAction from '../components/lists/ListItemDeleteAction';
 import Screen from '../components/Screen';
 
 const initialMessages = [
-	{ id: 1, title: 'T1', description: 'D1', image: require('../assets/mosh.jpg') },
+	{
+		id: 1,
+		title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, dolores.',
+		description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, dolores.',
+		image: require('../assets/mosh.jpg')
+	},
 	{ id: 2, title: 'T2', description: 'D2', image: require('../assets/mosh.jpg') }
 ];
+
 function MessagesScreen(props) {
 	const [messages, setMessages] = useState(initialMessages);
 	const [refreshing, setRefreshing] = useState(false);

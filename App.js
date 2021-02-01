@@ -5,5 +5,5 @@ import AddListingScreen from './app/screens/AddListingScreen';
 import MessagesScreen from './app/screens/MessagesScreen';
 
 export default function App() {
-	return <MessagesScreen />;
+	return <AddListingScreen />;
 }
