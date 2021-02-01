@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 import AppFormPicker from '../components/forms/AppFormPicker';
 
 const validationSchema = Yup.object().shape({
-	title: Yup.string().required().min(1).label('Title'),
+	title: Yup.string().required().min(2).label('Title'),
 	price: Yup.number().required().min(1).label('Price'),
 	category: Yup.object().nullable().label('Category'),
 	description: Yup.string().required().label('Description')

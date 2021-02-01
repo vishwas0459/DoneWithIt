@@ -1,8 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
-import { colors } from '../config/colors';
-import AppText from './AppText';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+
+import { colors } from '../../config/colors';
+import AppText from '../AppText';
+
 function ListItem({ IconComponent, image, title, subtitle, onPress, renderRightActions }) {
 	return (
 		<Swipeable renderRightActions={renderRightActions}>
@@ -14,6 +17,7 @@ function ListItem({ IconComponent, image, title, subtitle, onPress, renderRightA
 						<AppText style={styles.title}>{title}</AppText>
 						{subtitle && <AppText style={styles.subtitle}>{subtitle}</AppText>}
 					</View>
+					<MaterialCommunityIcons style={styles.icon} name='chevron-right' size={25} color={colors.medium} />
 				</View>
 			</TouchableHighlight>
 		</Swipeable>
@@ -22,18 +26,18 @@ function ListItem({ IconComponent, image, title, subtitle, onPress, renderRightA
 
 const styles = StyleSheet.create({
 	container: {
+		alignItems: 'center',
 		flexDirection: 'row',
-		padding: 10
+		padding: 15
 	},
 	detailsContainer: {
-		marginVertical: 10,
+		flex: 1,
 		marginLeft: 10
 	},
 	image: {
 		width: 80,
 		height: 80,
-		borderRadius: 40,
-		marginRight: 10
+		borderRadius: 40
 	},
 	title: {
 		fontSize: 20,
