@@ -1,13 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
-import AppButton from './app/components/AppButton';
-import AppText from './app/components/AppText';
-import Card from './app/components/Card';
-import ListingDetailsScreen from './app/screens/ListingDetailsScreen';
+import ImageInput from './app/components/ImageInput';
+import ListItem from './app/components/lists/ListItem';
+import AddListingScreen from './app/screens/AddListingScreen';
 import MessagesScreen from './app/screens/MessagesScreen';
-import ViewImageScreen from './app/screens/ViewImageScreen';
-import WelcomeScreen from './app/screens/WelcomeScreen';
 
 export default function App() {
-	return <MessagesScreen />;
+	return <AddListingScreen />;
 }
