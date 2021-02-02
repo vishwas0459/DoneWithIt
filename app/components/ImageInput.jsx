@@ -6,18 +6,32 @@ import Screen from './Screen';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 
-function ImageInput({ imageURI }) {
+function ImageInput({ imageUri, onChangeImage }) {
 	const handlePress = () => {
-		if (!imageURI) selectImage();
-	};
-	const requestPermission = async () => {
-		const { granted } = await ImagePicker.requestCameraPermissionsAsync();
-		if (!granted) {
-			Alert.alert('Delete');
+		if (!imageUri) {
+			selectImage();
+		} else {
+			Alert.alert('Delete', 'Do you want to delete the image?', [
+				{ text: 'Yes', onPress: () => onChangeImage(imageUri) },
+				{ text: 'No' }
+			]);
 		}
 	};
-	const selectImage = () => {
-		console.log('selectImage');
+	const requestPermission = async () => {
+		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (!granted) {
+			Alert.alert('We need permission to perform this action!');
+		}
+	};
+
+	const selectImage = async () => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			quality: 0.5
+		});
+		if (!result.cancelled) {
+			onChangeImage(result.uri);
+		}
 	};
 	useEffect(() => {
 		requestPermission();
@@ -25,11 +39,8 @@ function ImageInput({ imageURI }) {
 	return (
 		<TouchableWithoutFeedback onPress={handlePress}>
 			<View style={styles.container}>
-				{!imageURI ? (
-					<MaterialCommunityIcons name='camera' size={40} color={colors.medium} />
-				) : (
-					<Image source={{ uri: imageURI }} style={styles.image} />
-				)}
+				{!imageUri && <MaterialCommunityIcons name='camera' size={40} color={colors.medium} />}
+				{imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
 			</View>
 		</TouchableWithoutFeedback>
 	);
@@ -43,7 +54,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		overflow: 'hidden',
-		borderRadius: 15
+		borderRadius: 15,
+		marginRight: 10
 	},
 	image: {
 		width: '100%',
