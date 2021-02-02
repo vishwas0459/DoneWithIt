@@ -1,56 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Image, StyleSheet } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, Image, Alert } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from '../config/colors';
 import Screen from './Screen';
-import AppButton from './AppButton';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
 
-function ImageInput(props) {
-	const [imageURI, setImageURI] = useState(null);
-	const getPermission = async () => {
-		const { granted } = await ImagePicker.getMediaLibraryPermissionsAsync();
-		if (!granted) alert('You need to allow this access!');
-	};
-
-	useEffect(() => {
-		getPermission();
-	}, []);
-
-	const onSelectImage = async () => {
-		try {
-			const result = await ImagePicker.launchImageLibraryAsync();
-			// console.log('onSelectImage', result);
-			setImageURI(result.uri);
-		} catch (error) {
-			console.log('Error Occurred', error);
+function ImageInput({ imageUri, onChangeImage }) {
+	const handlePress = () => {
+		if (!imageUri) {
+			selectImage();
+		} else {
+			Alert.alert('Delete', 'Do you want to delete the image?', [
+				{ text: 'Yes', onPress: () => onChangeImage(imageUri) },
+				{ text: 'No' }
+			]);
 		}
 	};
+	const requestPermission = async () => {
+		const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (!granted) {
+			Alert.alert('We need permission to perform this action!');
+		}
+	};
+
+	const selectImage = async () => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			quality: 0.5
+		});
+		if (!result.cancelled) {
+			onChangeImage(result.uri);
+		}
+	};
+	useEffect(() => {
+		requestPermission();
+	}, []);
 	return (
-		<Screen style={styles.container}>
-			<Button title='Select Image' color='grey' onPress={onSelectImage} />
-			<TouchableWithoutFeedback
-				onPress={() =>
-					Alert.prompt('Image Selection', 'Do you want to remove image?', [
-						{
-							text: 'Yes',
-							onPress: () => setImageURI(null)
-						},
-						{
-							text: 'Cancel',
-							onPress: () => console.log('Canceled')
-						}
-					])
-				}
-			>
-				{imageURI && <Image source={{ uri: imageURI }} style={{ width: 200, height: 200 }} />}
-			</TouchableWithoutFeedback>
-		</Screen>
+		<TouchableWithoutFeedback onPress={handlePress}>
+			<View style={styles.container}>
+				{!imageUri && <MaterialCommunityIcons name='camera' size={40} color={colors.medium} />}
+				{imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+			</View>
+		</TouchableWithoutFeedback>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 10
+		backgroundColor: colors.light,
+		height: 100,
+		width: 100,
+		justifyContent: 'center',
+		alignItems: 'center',
+		overflow: 'hidden',
+		borderRadius: 15,
+		marginRight: 10
+	},
+	image: {
+		width: '100%',
+		height: '100%',
+		borderRadius: 15,
+		backgroundColor: colors.dark
 	}
 });
 

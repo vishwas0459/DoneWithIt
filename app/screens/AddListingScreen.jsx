@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
 import Screen from '../components/Screen';
 import * as Yup from 'yup';
@@ -6,12 +6,14 @@ import * as Yup from 'yup';
 import { StyleSheet } from 'react-native';
 import AppFormPicker from '../components/forms/AppFormPicker';
 import CategoryItemPicker from '../components/CategoryItemPicker';
-
+import * as values from 'expo-location';
+import AppFormImagePicker from '../components/forms/AppFormImagePicker';
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required().min(2).label('Title'),
 	price: Yup.number().required().min(1).label('Price'),
 	category: Yup.object().nullable().label('Category'),
-	description: Yup.string().required().label('Description')
+	description: Yup.string().required().label('Description'),
+	images: Yup.array().min(1, 'Please select at least one image!')
 });
 
 const categories = [
@@ -72,6 +74,23 @@ const categories = [
 ];
 
 function AddListingScreen(props) {
+	const [location, setLocation] = useState({});
+	const requestLocation = async () => {
+		try {
+			const { granted } = await Location.requestPermissionsAsync();
+			if (!granted) return;
+		} catch (error) {
+			console.log('Location request error', error);
+		}
+		const {
+			coords: { latitude, longitude }
+		} = await Location.getLastKnownPositionAsync();
+		setLocation({ latitude, longitude });
+	};
+	useEffect(() => {
+		requestLocation();
+	}, []);
+	// FIXME: Category is not getting updated
 	return (
 		<Screen style={styles.container}>
 			<AppForm
@@ -79,14 +98,17 @@ function AddListingScreen(props) {
 					title: '',
 					price: '',
 					category: null,
-					description: ''
+					description: '',
+					images: []
 				}}
-				validationSchema={validationSchema}
 				onSubmit={values => console.log('Listing values', values)}
+				validationSchema={validationSchema}
 			>
+				<AppFormImagePicker name='images' />
 				<AppFormField name='title' placeholder='Title' />
 				<AppFormField name='price' placeholder='Price' keyboardType='numeric' maxLength={8} width={120} />
 				<AppFormPicker
+					name='category'
 					items={categories}
 					width={150}
 					numColumns={3}
