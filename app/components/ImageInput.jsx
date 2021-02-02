@@ -48,7 +48,7 @@ function ImageInput({ imageUri, onChangeImage }) {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: 'red',
+		backgroundColor: colors.light,
 		height: 100,
 		width: 100,
 		justifyContent: 'center',
