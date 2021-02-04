@@ -6,8 +6,8 @@ import * as Yup from 'yup';
 import { StyleSheet } from 'react-native';
 import AppFormPicker from '../components/forms/AppFormPicker';
 import CategoryItemPicker from '../components/CategoryItemPicker';
-import * as values from 'expo-location';
 import AppFormImagePicker from '../components/forms/AppFormImagePicker';
+import useLocation from '../hooks/useLocation';
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required().min(2).label('Title'),
 	price: Yup.number().required().min(1).label('Price'),
@@ -74,23 +74,7 @@ const categories = [
 ];
 
 function AddListingScreen(props) {
-	const [location, setLocation] = useState({});
-	const requestLocation = async () => {
-		try {
-			const { granted } = await Location.requestPermissionsAsync();
-			if (!granted) return;
-		} catch (error) {
-			console.log('Location request error', error);
-		}
-		const {
-			coords: { latitude, longitude }
-		} = await Location.getLastKnownPositionAsync();
-		setLocation({ latitude, longitude });
-	};
-	useEffect(() => {
-		requestLocation();
-	}, []);
-	// FIXME: Category is not getting updated
+	const location = useLocation();
 	return (
 		<Screen style={styles.container}>
 			<AppForm

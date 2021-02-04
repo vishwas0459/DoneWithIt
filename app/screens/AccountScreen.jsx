@@ -12,17 +12,19 @@ const listData = [
 		icon: {
 			name: 'email',
 			backgroundColor: colors.primary
-		}
+		},
+		targetScreen: 'Listings'
 	},
 	{
 		title: 'My Messages',
 		icon: {
 			name: 'email',
 			backgroundColor: colors.secondary
-		}
+		},
+		targetScreen: 'Messages'
 	}
 ];
-function AccountScreen(props) {
+function AccountScreen({ navigation }) {
 	return (
 		<Screen style={styles.screen}>
 			<View style={styles.container}>
@@ -36,8 +38,7 @@ function AccountScreen(props) {
 						<ListItem
 							title={item.title}
 							IconComponent={<Icon name={item.icon.name} backgroundColor={item.icon.backgroundColor} />}
-							// FIX: onPress not working
-							onPress={() => alert('item')}
+							onPress={() => navigation.navigate(item.targetScreen)}
 						/>
 					)}
 					ItemSeparatorComponent={ListItemSeparator}
