@@ -1,31 +1,38 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ListingsScreen from '../screens/ListingsScreen';
+import AddListingScreen from '../screens/AddListingScreen';
+import AccountScreen from '../screens/AccountScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FeedNavigator from './FeedNavigator';
+import AccountNavigator from './AccountNavigator';
+import NewListingNavigationBtn from './NewListingNavigationBtn';
 
-import WelcomeScreen from '../screens/WelcomeScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-
-const Stack = createStackNavigator();
-const StackNavigator = () => (
-	<Stack.Navigator>
-		<Stack.Screen
-			name='Welcome'
-			component={WelcomeScreen}
-			options={{
-				headerShown: false
-			}}
-		/>
-		<Stack.Screen name='Login' component={LoginScreen} />
-		<Stack.Screen name='Register' component={RegisterScreen} />
-	</Stack.Navigator>
-);
+const Tab = createBottomTabNavigator();
 
 function AppNavigator(props) {
 	return (
-		<NavigationContainer>
-			<StackNavigator />
-		</NavigationContainer>
+		<Tab.Navigator>
+			<Tab.Screen
+				name='Feed'
+				component={FeedNavigator}
+				options={{ tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name='home' size={size} color={color} /> }}
+			/>
+			<Tab.Screen
+				name='AddListings'
+				component={AddListingScreen}
+				options={({ navigation }) => ({
+					tabBarButton: () => <NewListingNavigationBtn onPress={() => navigation.navigate('AddListings')} />
+				})}
+			/>
+			<Tab.Screen
+				name='Account'
+				component={AccountNavigator}
+				options={{
+					tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name='account' size={size} color={color} />
+				}}
+			/>
+		</Tab.Navigator>
 	);
 }
 

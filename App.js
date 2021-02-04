@@ -11,6 +11,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // };
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppNavigator from './app/navigation/AppNavigator';
+import AuthNavigator from './app/navigation/AuthNavigator';
+import appTheme from './app/navigation/navigationTheme';
 const Account = () => (
 	<Screen>
 		<AppText>Account</AppText>
@@ -72,11 +74,9 @@ const TabNavigator = () => (
 );
 export default function App() {
 	return (
-		// <AppText>HI</AppText>
-		// <NavigationContainer>
-		// 	{/* <StackNavigator /> */}
-		// 	<TabNavigator />
-		// </NavigationContainer>
-		<AppNavigator />
+		<NavigationContainer theme={appTheme}>
+			{/* <AuthNavigator /> */}
+			<AppNavigator />
+		</NavigationContainer>
 	);
 }
